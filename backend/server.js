@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
 
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 3001;
+
 const app = express();
 //app.use(cors());
 app.use(function(req, res, next) {
