@@ -21,7 +21,7 @@ class App extends Component {
   // then we incorporate a polling logic so that we can easily see if our db has 
   // changed and implement those changes into our UI
   componentDidMount() {
-    // this.getDataFromDb();
+    this.getDataFromDb();
     this.addVoicesSystem();    
     if (!this.state.intervalIsSet) {
       //let interval = setInterval(this.getDataFromDb, 1000);
@@ -54,7 +54,7 @@ class App extends Component {
           artyom.initialize({
               lang:"en-GB",// A lot of languages are supported. Read the docs !
               continuous:true,// recognize 1 command and stop listening !
-              listen:true, // Start recognizing
+              listen:false, // Start recognizing
               debug:true, // Show everything in the console
               speed:1 // talk normally
           }).then(function(){
@@ -139,10 +139,10 @@ class App extends Component {
           {data.length <= 0
             ? "NO DB ENTRIES YET"
             : data.map(dat => (
-                <li style={{ padding: "10px" }} key={dat.message}>
-                  <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
+                <li style={{ padding: "10px" }} key={dat.productId}>
+                  <span style={{ color: "gray" }}> id: </span> {dat.productId} <br />
                   <span style={{ color: "gray" }}> data: </span>
-                  {dat.message}
+                  {dat.description}
                 </li>
               ))}
         </ul>

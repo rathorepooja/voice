@@ -1,31 +1,37 @@
 const mongoose = require("mongoose");
 const express = require("express");
-var cors = require('cors');
+// var cors = require('cors');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
 
 const API_PORT = 3001;
 const app = express();
-app.use(cors());
+//app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 const router = express.Router();
 
 // this is our MongoDB database
-//const dbRoute = "mongodb://jelo:a9bc839993@ds151382.mlab.com:51382/jelotest";
-const dbRoute = "mongodb://127.0.0.1:27017/test";
+const dbRoute = "mongodb://test:test@shop-uuyvd.mongodb.net:27017/shop?retryWrites=true";
 
 // connects our back end code with the database
 mongoose.connect(
   dbRoute,
-  { useNewUrlParser: true }
-);
+  { 
+    useNewUrlParser: true     
+  }
+).then(() => {console.log('connected')}, err => console.log('Mongo connection error sd', err));
 
 let db = mongoose.connection;
 
 db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.on("error", console.error.bind(console, "MongoDB connection error sdfsdf:"));
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
@@ -36,7 +42,7 @@ app.use(logger("dev"));
 // this is our get method
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
-  Data.find((err, data) => {
+  db.collection('products').find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
