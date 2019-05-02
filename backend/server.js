@@ -6,7 +6,7 @@ const logger = require("morgan");
 const Data = require("./data");
 
 const API_PORT = process.env.PORT || 3001;
-const API_PORT_TO_LISTEN = API_PORT + 10;
+const API_PORT_TO_LISTEN = parseInt(API_PORT) + 10;
 
 const app = express();
 //app.use(cors());
