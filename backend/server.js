@@ -6,6 +6,7 @@ const logger = require("morgan");
 const Data = require("./data");
 
 const API_PORT = process.env.PORT || 3001;
+const API_PORT_TO_LISTEN = API_PORT + 10;
 
 const app = express();
 //app.use(cors());
@@ -94,4 +95,4 @@ router.post("/putData", (req, res) => {
 app.use("/api", router);
 
 // launch our backend into a port
-app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+app.listen(API_PORT_TO_LISTEN, () => console.log(`LISTENING ON PORT ${API_PORT_TO_LISTEN}`));
