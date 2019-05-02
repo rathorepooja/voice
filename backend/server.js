@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = "mongodb://test:test@shop-uuyvd.mongodb.net:27017/shop?retryWrites=true";
+const dbRoute = "mongodb+srv://test:test@shop-uuyvd.mongodb.net/shop?retryWrites=true";
 
 // connects our back end code with the database
 mongoose.connect(
@@ -26,14 +26,14 @@ mongoose.connect(
   { 
     useNewUrlParser: true     
   }
-).then(() => {console.log('connected')}, err => console.log('Mongo connection error sd', err));
+).then(err => console.log('Mongo connection error sd', err));
 
 let db = mongoose.connection;
 
-db.once("open", () => console.log("connected to the database"));
-
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error sdfsdf:"));
+db.once("open", () => console.log("connected to the database"));
+
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
