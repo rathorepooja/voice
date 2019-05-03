@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const Schema = mongoose.Schema;
+const path = require('path');
 // var cors = require('cors');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
@@ -53,6 +54,14 @@ app.use(logger("dev"));
 mongoose.model('Products', 
                new Schema({ productId: String, description: String }), 
                'products'); 
+
+
+
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
+})
+
 
 
 
