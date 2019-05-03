@@ -54,7 +54,7 @@ class App extends Component {
           artyom.initialize({
               lang:"en-GB",// A lot of languages are supported. Read the docs !
               continuous:true,// recognize 1 command and stop listening !
-              listen:false, // Start recognizing
+              listen:true, // Start recognizing
               debug:true, // Show everything in the console
               speed:1 // talk normally
           }).then(function(){
@@ -73,7 +73,7 @@ class App extends Component {
   // fetch data from our data base
   getDataFromDb = () => {
     fetch(window.location.origin+"/api/getData")
-      .then(data => {data.json()})
+      .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
 

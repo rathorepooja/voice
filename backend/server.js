@@ -5,26 +5,20 @@ const path = require('path');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
+const cors = require('cors');
 
 const API_PORT = process.env.PORT || 3001;
 const API_PORT_TO_LISTEN = parseInt(API_PORT) + 10;
 
 const app = express();
+
+app.use(cors());
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-app.use('public', express.static(path.join(__dirname, 'build')));
-app.use('public', express.static(path.join(__dirname, 'public')));
-
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'index.html'));
-});
-
 
 const router = express.Router();
 
@@ -69,7 +63,7 @@ mongoose.model('Products',
 
 // this is our get method
 // this method fetches all available data in our database
-router.get("/getData", (req, res) => {
+router.route("/getData", (req, res) => {
   console.log('at get data');
   Products.find({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -79,40 +73,9 @@ router.get("/getData", (req, res) => {
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post("/updateData", (req, res) => {
+router.route("/updateData", (req, res) => {
   const { id, update } = req.body;
   Data.findOneAndUpdate(id, update, err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// this is our delete method
-// this method removes existing data in our database
-router.delete("/deleteData", (req, res) => {
-  const { id } = req.body;
-  Data.findOneAndDelete(id, err => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-});
-
-// this is our create methid
-// this method adds new data in our database
-router.post("/putData", (req, res) => {
-  let data = new Data();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
