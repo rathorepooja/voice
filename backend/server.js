@@ -58,7 +58,8 @@ mongoose.model('Products',
 
 
 
-app.get("/*", function (req, res) {
+router.get("/*", function (req, res) {
+  console.log('sdf');
   res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
 })
 
@@ -69,7 +70,8 @@ app.get("/*", function (req, res) {
 
 // this is our get method
 // this method fetches all available data in our database
-app.get("/getData", (req, res) => {
+router.get("/getData", (req, res) => {
+  console.log('at get data');
   Products.find({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
@@ -78,7 +80,7 @@ app.get("/getData", (req, res) => {
 
 // this is our update method
 // this method overwrites existing data in our database
-app.post("/updateData", (req, res) => {
+router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   Data.findOneAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
