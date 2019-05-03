@@ -24,9 +24,10 @@ const dbRoute = "mongodb+srv://test:test@shop-uuyvd.mongodb.net/shop?retryWrites
 mongoose.connect(
   dbRoute,
   { 
-    useNewUrlParser: true     
+    useNewUrlParser: true,
+    dbName: 'shop'
   }
-).then(err => console.log('Mongo connection error sd', err));
+);
 
 let db = mongoose.connection;
 
