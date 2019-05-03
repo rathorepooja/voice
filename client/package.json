@@ -23,6 +23,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
-  
+  ],
+  "proxy": "https://retail-shop.herokuapp.com"
 }
