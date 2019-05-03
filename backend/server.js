@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const express = require("express");
 const Schema = mongoose.Schema;
 const path = require('path');
-// var cors = require('cors');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
@@ -17,11 +16,15 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(__dirname)); //here is important thing - no static directory, because all static :)
+app.use('public', express.static(path.join(__dirname, 'build')));
+app.use('public', express.static(path.join(__dirname, 'public')));
 
-app.get("/*", function(req, res) {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'));
 });
+
 
 const router = express.Router();
 
@@ -53,7 +56,7 @@ connection.once("open", () => {
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
@@ -61,6 +64,7 @@ mongoose.model('Products',
                new Schema({ productId: String, description: String }), 
                'products'); 
 
+  
 
 
 // this is our get method
