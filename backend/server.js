@@ -57,17 +57,6 @@ mongoose.model('Products',
 
 
 
-
-router.get("/*", function (req, res) {
-  console.log('sdf');
-  res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
-})
-
-
-
-
-
-
 // this is our get method
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
@@ -118,6 +107,12 @@ router.post("/putData", (req, res) => {
     return res.json({ success: true });
   });
 });
+
+
+router.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
 
 // append /api for our http requests
 app.use("/api", router);

@@ -73,7 +73,7 @@ class App extends Component {
   // fetch data from our data base
   getDataFromDb = () => {
     fetch(window.location.origin+"/api/getData")
-      .then(data => data.json())
+      .then(data => {data.json()})
       .then(res => this.setState({ data: res.data }));
   };
 
