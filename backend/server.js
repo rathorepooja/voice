@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const Schema = mongoose.Schema;
 // var cors = require('cors');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
@@ -29,11 +30,18 @@ mongoose.connect(
   }
 );
 
-let db = mongoose.connection;
+let connection = mongoose.connection;
 
 // checks if connection with the database is successful
-db.on("error", console.error.bind(console, "MongoDB connection error sdfsdf:"));
-db.once("open", () => console.log("connected to the database"));
+connection.on("error", console.error.bind(console, "MongoDB connection error sdfsdf:"));
+connection.once("open", () => {
+  console.log("connected to the database")
+  connection.db.collection('products',function(err, collection){
+      collection.find({}).toArray(function(err, data){
+          console.log(data); // it will print your collection data
+      })
+  });
+});
 
 
 // (optional) only made for logging and
@@ -42,10 +50,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
+mongoose.model('Products', 
+               new Schema({ productId: String, description: String }), 
+               'products'); 
+
 // this is our get method
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
-  db.collection('products').find((err, data) => {
+  Products.find({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
