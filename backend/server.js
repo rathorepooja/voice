@@ -54,9 +54,13 @@ mongoose.model('Products',
                new Schema({ productId: String, description: String }), 
                'products'); 
 
+
+
+
+
 // this is our get method
 // this method fetches all available data in our database
-router.get("/getData", (req, res) => {
+app.get("/getData", (req, res) => {
   Products.find({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
@@ -65,7 +69,7 @@ router.get("/getData", (req, res) => {
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post("/updateData", (req, res) => {
+app.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   Data.findOneAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
